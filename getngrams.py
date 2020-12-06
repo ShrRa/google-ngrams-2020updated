@@ -6,6 +6,7 @@ import re
 import requests               # http://github.com/kennethreitz/requests
 import subprocess
 import sys
+import datetime
 
 corpora = dict(eng_us_2012=17, eng_us_2009=5, eng_us_2019=28,
                eng_gb_2012=18, eng_gb_2009=6, eng_gb_2019=26,
@@ -91,9 +92,11 @@ def runQuery(argumentString):
     if '@' in query:
         query = query.replace('@', '=>')
     params = [arg for arg in arguments if arg.startswith('-')]
-    corpus, startYear, endYear, smoothing = 'eng_2012', 1800, 2000, 3
+    now = datetime.datetime.now()
+    corpus, startYear, endYear, smoothing = 'eng_2012', 1800, int(now.year)-1, 3
     printHelp, caseInsensitive, allData = False, False, False
     toSave, toPrint, toPlot = True, True, False
+    filename=''
 
     # parsing the query parameters
     for param in params:
@@ -115,6 +118,8 @@ def runQuery(argumentString):
             caseInsensitive = True
         elif '-alldata' in param:
             allData = True
+        elif '-filename' in param:
+            filename=str(param.split('=')[1])  
         elif '-help' in param:
             printHelp = True
         else:
@@ -179,7 +184,8 @@ def runQuery(argumentString):
         if (len(queries) > 20):
             queries = "ManyQueries"
 
-        filename = '%s-%s-%d-%d-%d-%s.csv' % (queries, corpus, startYear,
+        if filename=='':
+            filename = '%s-%s-%d-%d-%d-%s.csv' % (queries, corpus, startYear,
                                               endYear, smoothing, word_case)
         if toSave:
             for col in df.columns:
