@@ -9,9 +9,9 @@ import sys
 import datetime
 
 corpora = dict(eng_us_2012=17, eng_us_2009=5, eng_us_2019=28,
-               eng_gb_2012=18, eng_gb_2009=6, eng_gb_2019=26,
+               eng_gb_2012=18, eng_gb_2009=6, eng_gb_2019=29,
                chi_sim_2019=34, chi_sim_2012=23, chi_sim_2009=11,
-               eng_2012=15, eng_2009=0,
+               eng_2019=26,eng_2012=15, eng_2009=0,
                eng_fiction_2012=16, eng_fiction_2009=4, eng_1m_2009=1,
                fre_2019=30, fre_2012=19, fre_2009=7,
                ger_2019=31, ger_2012=20, ger_2009=8,
@@ -93,7 +93,7 @@ def runQuery(argumentString):
         query = query.replace('@', '=>')
     params = [arg for arg in arguments if arg.startswith('-')]
     now = datetime.datetime.now()
-    corpus, startYear, endYear, smoothing = 'eng_2012', 1800, int(now.year)-1, 3
+    corpus, startYear, endYear, smoothing = 'eng_2019', 1800, int(now.year)-1, 3
     printHelp, caseInsensitive, allData = False, False, False
     toSave, toPrint, toPlot = True, True, False
     filename=''
